@@ -13,10 +13,11 @@ export default class Init extends Command {
     await this.parse(Init);
 
     const config = getConfig();
-    if (config.isErr()) {
+    if (config.isErr())
       this.error(`Failed to get config: ${config.error.message}`);
-      return;
-    }
+
+    this.log("Initialization successful!: ", config.value);
+
     // if (config != null) console.log("");
   }
 }

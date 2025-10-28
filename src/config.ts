@@ -1,4 +1,5 @@
 import TOML from "@iarna/toml";
+import fs from "fs";
 import { err, ok, Result } from "neverthrow";
 import process from "node:process";
 import z from "zod";
@@ -38,7 +39,14 @@ const schema = z.object({
 type Config = z.infer<typeof schema>;
 
 function parseConfig(configPath: string): Result<Config, Error> {
-  const tomlResult = Result.fromThrowable(() => TOML.parse(configPath))();
+  const rawConfigResult = Result.fromThrowable(() =>
+    fs.readFileSync(configPath, "utf-8")
+  )();
+  if (rawConfigResult.isErr()) return err(rawConfigResult.error as Error);
+
+  const tomlResult = Result.fromThrowable(() =>
+    TOML.parse(rawConfigResult.value)
+  )();
   if (tomlResult.isErr()) return err(tomlResult.error as Error);
   const injected = injectEnv(tomlResult.value);
   const schemaResult = Result.fromThrowable(() => schema.parse(injected))();
@@ -47,4 +55,4 @@ function parseConfig(configPath: string): Result<Config, Error> {
   return ok(schemaResult.value);
 }
 
-export { parseConfig };
+export { Config, parseConfig };
