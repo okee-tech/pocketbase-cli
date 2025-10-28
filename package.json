@@ -12,7 +12,9 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
+    "chalk": "^5.6.2",
     "docker-compose": "^1.3.0",
+    "dockerode": "^4.0.9",
     "dotenv": "^17.2.3",
     "neverthrow": "^8.2.0",
     "zod": "^4.1.12"
@@ -24,9 +26,11 @@
     "@okee-tech/eslint-plugin-neverthrow": "^1.0.13",
     "@types/chai": "^5",
     "@types/copyfiles": "^2.4.4",
+    "@types/dockerode": "^3.3.45",
     "@types/mocha": "^10",
     "@types/node": "^24",
     "chai": "^6",
+    "copyfiles": "^2.4.1",
     "eslint": "^9",
     "eslint-config-oclif": "^6",
     "eslint-config-prettier": "^10",
@@ -35,8 +39,7 @@
     "oclif": "^4",
     "shx": "^0.4.0",
     "ts-node": "^10",
-    "typescript": "^5",
-    "copyfiles": "^2.4.1"
+    "typescript": "^5"
   },
   "engines": {
     "node": ">=18.0.0"
