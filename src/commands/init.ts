@@ -12,12 +12,11 @@ export default class Init extends Command {
   public async run(): Promise<void> {
     await this.parse(Init);
 
+    const currentPath = process.cwd();
     const config = getConfig();
-    if (config.isErr())
-      this.error(`Failed to get config: ${config.error.message}`);
+    if (config.isOk() && config.value.projectRoot == currentPath)
+      this.error("Project is already initialized in this directory");
 
-    this.log("Initialization successful!: ", config.value);
-
-    // if (config != null) console.log("");
+    // Create a project
   }
 }
