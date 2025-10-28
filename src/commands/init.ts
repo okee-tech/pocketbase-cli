@@ -24,6 +24,8 @@ export default class Init extends Command {
 
     const currentPath = process.cwd();
     const pocketbasePath = path.join(currentPath, "pocketbase");
+    const configPath = path.join(pocketbasePath, "config.toml");
+
     const pocketbaseExists = Result.fromThrowable(() =>
       fs.statSync(pocketbasePath)
     )();
@@ -32,9 +34,19 @@ export default class Init extends Command {
 
     const currentProjectName = path.basename(currentPath);
 
-    fs.mkdirSync(pocketbasePath, { recursive: true });
-    fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
+    const initResult = Result.fromThrowable(() => {
+      fs.mkdirSync(pocketbasePath, { recursive: true });
+      fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
 
-    // cp -r SAMPLES_DIR/**/*  pocketbasePath
+      const config = fs.readFileSync(configPath, "utf-8");
+      const updatedConfig = config.replace(/sample-app/g, currentProjectName);
+
+      fs.writeFileSync(configPath, updatedConfig, "utf-8");
+    })();
+
+    if (initResult.isErr())
+      this.error(
+        `Failed to initialize PocketBase project: ${initResult.error}`
+      );
   }
 }
