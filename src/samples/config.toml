@@ -1,1 +1,2 @@
-app = "sample-app"
+[meta]
+appName = "sample-app"

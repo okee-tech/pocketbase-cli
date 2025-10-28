@@ -3,8 +3,6 @@ import { Command } from "@oclif/core";
 import { Result } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
-// import { getConfig } from "../get-config.js";
-import copyfiles from "copyfiles";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +40,11 @@ export default class Init extends Command {
       const updatedConfig = config.replace(/sample-app/g, currentProjectName);
 
       fs.writeFileSync(configPath, updatedConfig, "utf-8");
+      fs.writeFileSync(
+        path.join(pocketbasePath, ".gitignore"),
+        ".pb\n",
+        "utf-8"
+      );
     })();
 
     if (initResult.isErr())

@@ -3,12 +3,12 @@ import "dotenv/config";
 import { Result, err, ok } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
-import { Config, parseConfig } from "./config.js";
+import { SettingsSchemaConfig, parseConfig } from "./config.js";
 
 type Project = {
   configPath: string;
   projectRoot: string;
-  config: Config;
+  config: SettingsSchemaConfig;
 };
 
 function getProject(): Result<Project, Error> {
