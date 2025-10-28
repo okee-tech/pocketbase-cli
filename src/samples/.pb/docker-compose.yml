@@ -1,9 +1,13 @@
 services:
   pocketbase:
-    image: ghcr.io/pocketbase/pocketbase:latest
+    build:
+      context: ..
+      dockerfile: .pb/Dockerfile
+
     container_name: pocketbase
+
     ports:
-      - "8090:8090"
+      - "55432:8080"
+
     volumes:
       - ./pb_data:/pb_data
-    command: ["serve", "--http=:8090", "--data=/pb_data"]

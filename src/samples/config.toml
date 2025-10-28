@@ -1,2 +1,4 @@
+bindPort = 55432
+
 [meta]
-appName = "sample-app"
+appName = "#APP_NAME#"

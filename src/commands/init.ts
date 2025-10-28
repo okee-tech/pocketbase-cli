@@ -4,6 +4,7 @@ import { Result } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { getConfig } from "../get-config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,7 +38,7 @@ export default class Init extends Command {
       fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
 
       const config = fs.readFileSync(configPath, "utf-8");
-      const updatedConfig = config.replace(/sample-app/g, currentProjectName);
+      const updatedConfig = config.replaceAll("#APP_NAME#", currentProjectName);
 
       fs.writeFileSync(configPath, updatedConfig, "utf-8");
       fs.writeFileSync(
@@ -51,5 +52,13 @@ export default class Init extends Command {
       this.error(
         `Failed to initialize PocketBase project: ${initResult.error}`
       );
+
+    const newConfig = getConfig();
+    if (newConfig.isErr())
+      this.error(`Failed to parse new config: ${newConfig.error}`);
+
+    this.log(
+      `Initialized PocketBase project '${newConfig.value.config.meta?.appName}' at ${pocketbasePath}`
+    );
   }
 }

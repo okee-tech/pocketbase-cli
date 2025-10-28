@@ -128,13 +128,14 @@ const TrustedProxyConfigSchema = z.object({
 });
 
 export const SettingsSchema = z.object({
+  bindPort: z.number().int().default(55432),
+
   backups: BackupsConfigSchema.optional(),
   batch: BatchConfigSchema.optional(),
   logs: LogsConfigSchema.optional(),
   meta: MetaConfigSchema.optional(),
   rateLimits: RateLimitsConfigSchema.optional(),
   s3: S3ConfigSchema.optional(),
-
   smtp: SMTPConfigSchema.optional(),
   trustedProxy: TrustedProxyConfigSchema.optional(),
 });
