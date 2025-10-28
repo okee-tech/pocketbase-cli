@@ -1,7 +1,7 @@
 {
-  "name": "pocketbase-cli",
+  "name": "@okee-tech/pocketbase-cli",
   "description": "A new CLI generated with oclif",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Demid Kaidalov",
   "bin": {
     "pocketbase": "./bin/run.js"
@@ -10,22 +10,24 @@
   "dependencies": {
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "neverthrow": "^8.2.0"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",
-    "@types/chai": "^4",
+    "@okee-tech/eslint-plugin-neverthrow": "^1.0.13",
+    "@types/chai": "^5",
     "@types/mocha": "^10",
-    "@types/node": "^18",
-    "chai": "^4",
+    "@types/node": "^24",
+    "chai": "^6",
     "eslint": "^9",
     "eslint-config-oclif": "^6",
     "eslint-config-prettier": "^10",
-    "mocha": "^10",
+    "mocha": "^11",
     "oclif": "^4",
-    "shx": "^0.3.3",
+    "shx": "^0.4.0",
     "ts-node": "^10",
     "typescript": "^5"
   },

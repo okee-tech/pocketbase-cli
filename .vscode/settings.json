@@ -1,0 +1,12 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.sortImports": "always",
+    "source.sortMembers": "always"
+  },
+  "editor.colorDecorators": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true
+}
