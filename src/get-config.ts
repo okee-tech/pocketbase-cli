@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { Result, err, ok } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
@@ -22,7 +24,7 @@ function getProject(): Result<Project, Error> {
 
   return ok({
     configPath: configPathResult.value,
-    projectRoot: path.join(configPathResult.value, ".."),
+    projectRoot: path.join(configPathResult.value, "..", ".."),
     config: configResult.value,
   });
 }

@@ -1,6 +1,16 @@
 import { Command } from "@oclif/core";
 
-import { getConfig } from "../get-config.js";
+import { Result } from "neverthrow";
+import fs from "node:fs";
+import path from "node:path";
+// import { getConfig } from "../get-config.js";
+import copyfiles from "copyfiles";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const SAMPLES_DIR = path.join(__dirname, "..", "samples");
 
 export default class Init extends Command {
   static override args = {};
@@ -13,10 +23,18 @@ export default class Init extends Command {
     await this.parse(Init);
 
     const currentPath = process.cwd();
-    const config = getConfig();
-    if (config.isOk() && config.value.projectRoot == currentPath)
-      this.error("Project is already initialized in this directory");
+    const pocketbasePath = path.join(currentPath, "pocketbase");
+    const pocketbaseExists = Result.fromThrowable(() =>
+      fs.statSync(pocketbasePath)
+    )();
+    if (pocketbaseExists.isOk())
+      this.error("PocketBase project already initialized in this directory.");
 
-    // Create a project
+    const currentProjectName = path.basename(currentPath);
+
+    fs.mkdirSync(pocketbasePath, { recursive: true });
+    fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
+
+    // cp -r SAMPLES_DIR/**/*  pocketbasePath
   }
 }
