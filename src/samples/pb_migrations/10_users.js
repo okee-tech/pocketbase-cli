@@ -21,6 +21,8 @@ migrate(
       let record = new Record(users);
       record.set("email", item.email);
       record.set("password", item.password);
+      record.set("verified", true);
+      if (item.name !== undefined) record.set("name", item.name);
       app.save(record);
     }
   },
