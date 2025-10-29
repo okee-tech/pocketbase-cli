@@ -31,7 +31,9 @@ async function areAllRunning(
     DOCKER_IMAGES.every(
       (pbImage) =>
         listResult.value.find(
-          (el) => pbImage == el.Labels["com.docker.compose.service"]
+          (el) =>
+            pbImage == el.Labels["com.docker.compose.service"] &&
+            el.State == "running"
         ) != undefined
     ) && listResult.value.every((el) => el.State == "running");
 

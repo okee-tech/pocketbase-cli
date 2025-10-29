@@ -10,4 +10,7 @@ services:
       - "55432:8080"
 
     volumes:
-      - ./pb_data:/pb/pb_data
+      - ./pb_data:/pb/pb_data:rw
+
+      - ../pb_migrations:/pb/pb_migrations:ro
+      - ../pb_hooks:/pb/pb_hooks:ro

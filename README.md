@@ -20,7 +20,7 @@ $ npm install -g @okee-tech/pocketbase-cli
 $ pocketbase COMMAND
 running command...
 $ pocketbase (--version)
-@okee-tech/pocketbase-cli/0.0.8 win32-x64 node-v22.15.0
+@okee-tech/pocketbase-cli/0.0.10 win32-x64 node-v22.15.0
 $ pocketbase --help [COMMAND]
 USAGE
   $ pocketbase COMMAND
@@ -33,6 +33,7 @@ USAGE
 * [`pocketbase init`](#pocketbase-init)
 * [`pocketbase migrate`](#pocketbase-migrate)
 * [`pocketbase reset`](#pocketbase-reset)
+* [`pocketbase restart`](#pocketbase-restart)
 * [`pocketbase start`](#pocketbase-start)
 * [`pocketbase status`](#pocketbase-status)
 * [`pocketbase stop`](#pocketbase-stop)
@@ -72,7 +73,7 @@ EXAMPLES
   $ pocketbase init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/init.ts)_
 
 ## `pocketbase migrate`
 
@@ -89,7 +90,7 @@ EXAMPLES
   $ pocketbase migrate
 ```
 
-_See code: [src/commands/migrate.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/migrate.ts)_
+_See code: [src/commands/migrate.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/migrate.ts)_
 
 ## `pocketbase reset`
 
@@ -106,7 +107,24 @@ EXAMPLES
   $ pocketbase reset
 ```
 
-_See code: [src/commands/reset.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/reset.ts)_
+_See code: [src/commands/reset.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/reset.ts)_
+
+## `pocketbase restart`
+
+Restart PocketBase server
+
+```
+USAGE
+  $ pocketbase restart
+
+DESCRIPTION
+  Restart PocketBase server
+
+EXAMPLES
+  $ pocketbase restart
+```
+
+_See code: [src/commands/restart.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/restart.ts)_
 
 ## `pocketbase start`
 
@@ -123,7 +141,7 @@ EXAMPLES
   $ pocketbase start
 ```
 
-_See code: [src/commands/start.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/start.ts)_
+_See code: [src/commands/start.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/start.ts)_
 
 ## `pocketbase status`
 
@@ -140,7 +158,7 @@ EXAMPLES
   $ pocketbase status
 ```
 
-_See code: [src/commands/status.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/status.ts)_
+_See code: [src/commands/status.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/status.ts)_
 
 ## `pocketbase stop`
 
@@ -157,5 +175,5 @@ EXAMPLES
   $ pocketbase stop
 ```
 
-_See code: [src/commands/stop.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.8/src/commands/stop.ts)_
+_See code: [src/commands/stop.ts](https://github.com/okee-tech/pocketbase-cli/blob/v0.0.10/src/commands/stop.ts)_
 <!-- commandsstop -->

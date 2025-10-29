@@ -1,0 +1,70 @@
+import { Command } from "@oclif/core";
+import chalk from "chalk";
+import * as compose from "docker-compose";
+import { ResultAsync } from "neverthrow";
+import path from "node:path";
+import { getStatusString } from "../docker.js";
+import { getProject } from "../get-project.js";
+
+export default class Restart extends Command {
+  static override args = {};
+  static override description = "Restart PocketBase server";
+  static override examples = ["<%= config.bin %> <%= command.id %>"];
+  static override flags = {};
+
+  public async run(): Promise<void> {
+    await this.parse(Restart);
+
+    const projectResult = getProject();
+    if (projectResult.isErr())
+      this.error(chalk.red(`Project not found: ${projectResult.error}`));
+    const project = projectResult.value;
+    const pbConfig = project.config;
+    const projectName = pbConfig.appName;
+
+    this.log(
+      `Located PocketBase: ${chalk.cyanBright(projectName)}, at ${chalk.italic(
+        project.projectRoot
+      )}`
+    );
+
+    const compoaseDown = await ResultAsync.fromThrowable(() =>
+      compose.down({
+        cwd: path.join(project.projectRoot, "pocketbase", ".pb"),
+        log: false,
+        composeOptions: ["--project-name", projectName],
+      })
+    )();
+    if (compoaseDown.isErr())
+      this.error(
+        chalk.red(
+          `Failed to stop existing PocketBase Docker containers: ${compoaseDown.error}`
+        )
+      );
+
+    this.log(chalk.green("PocketBase Docker containers stopped."));
+
+    const composeUp = await ResultAsync.fromThrowable(() =>
+      compose.upAll({
+        cwd: path.join(project.projectRoot, "pocketbase", ".pb"),
+        log: false,
+        composeOptions: ["--project-name", projectName],
+      })
+    )();
+    if (composeUp.isErr())
+      this.error(
+        chalk.red(
+          `Failed to start PocketBase Docker containers: ${composeUp.error}`
+        )
+      );
+    this.log(chalk.green("PocketBase Docker containers started."));
+
+    const statusString = await getStatusString(project);
+    if (statusString.isErr())
+      this.error(
+        chalk.red(`Failed to retrieve PocketBase status: ${statusString.error}`)
+      );
+
+    this.log(statusString.value);
+  }
+}

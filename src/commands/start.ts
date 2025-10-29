@@ -93,7 +93,6 @@ export default class Start extends Command {
         cwd: path.join(project.projectRoot, "pocketbase", ".pb"),
         log: false,
         composeOptions: ["--project-name", projectName],
-        commandOptions: ["--build"],
       })
     )();
     if (composeUpResult.isErr())
