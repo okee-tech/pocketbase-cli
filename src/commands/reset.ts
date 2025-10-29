@@ -1,27 +1,43 @@
-import { Args, Command, Flags } from "@oclif/core";
+import { Command } from "@oclif/core";
+import chalk from "chalk";
+import { Result } from "neverthrow";
+import fs from "node:fs";
+import path from "node:path";
+import { getProject } from "../get-project.js";
+import Start from "./start.js";
 
 export default class Reset extends Command {
-  static override args = {
-    file: Args.string({ description: "file to read" }),
-  };
-  static override description = "describe the command here";
+  static override args = {};
+  static override description =
+    "Reset PocketBase server, re-applying migrations";
   static override examples = ["<%= config.bin %> <%= command.id %>"];
-  static override flags = {
-    // flag with no value (-f, --force)
-    force: Flags.boolean({ char: "f" }),
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({ char: "n", description: "name to print" }),
-  };
+  static override flags = {};
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(Reset);
+    await this.parse(Reset);
 
-    const name = flags.name ?? "world";
-    this.log(
-      `hello ${name} from C:\\Users\\demid\\Desktop\\okee-tech\\pocketbase-cli\\src\\commands\\reset.ts`
-    );
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`);
-    }
+    const projectResult = getProject();
+    if (projectResult.isErr())
+      this.error(chalk.red(`Project not found: ${projectResult.error}`));
+
+    const stateRemoveResult = Result.fromThrowable(() =>
+      fs.rmSync(
+        path.join(
+          projectResult.value.projectRoot,
+          "pocketbase",
+          ".pb",
+          ".pbstate"
+        ),
+        { force: true }
+      )
+    )();
+    if (stateRemoveResult.isErr())
+      this.error(
+        chalk.red(
+          `Failed to remove existing PocketBase state file: ${stateRemoveResult.error}`
+        )
+      );
+
+    await this.config.runCommand("start");
   }
 }
