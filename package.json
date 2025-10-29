@@ -1,7 +1,7 @@
 {
   "name": "@okee-tech/pocketbase-cli",
   "description": "PocketBase CLI tool to manage PocketBase instances and projects",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "OKEE Tech",
   "bin": {
     "pocketbase": "./bin/run.js"
