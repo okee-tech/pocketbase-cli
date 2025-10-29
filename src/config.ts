@@ -1,6 +1,6 @@
 import TOML from "@iarna/toml";
-import fs from "fs";
 import { err, ok, Result } from "neverthrow";
+import fs from "node:fs";
 import process from "node:process";
 import z from "zod";
 
@@ -127,8 +127,19 @@ const TrustedProxyConfigSchema = z.object({
   useLeftmostIP: z.boolean().optional(),
 });
 
+const SuperuserConfigSchema = z.object({
+  email: z.email(),
+  password: z.string(),
+});
+
 export const SettingsSchema = z.object({
   bindPort: z.number().int().default(55432),
+  superusers: SuperuserConfigSchema.array().default([
+    {
+      email: "test@inbucket.local",
+      password: "password",
+    },
+  ]),
 
   backups: BackupsConfigSchema.optional(),
   batch: BatchConfigSchema.optional(),

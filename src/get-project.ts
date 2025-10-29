@@ -87,4 +87,4 @@ function findPocketBaseProject(
   return search(startPath, 0);
 }
 
-export { getProject as getConfig };
+export { getProject, type Project };

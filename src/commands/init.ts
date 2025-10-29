@@ -1,15 +1,11 @@
 import { Command } from "@oclif/core";
 
+import chalk from "chalk";
 import { Result } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { getConfig } from "../get-config.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const SAMPLES_DIR = path.join(__dirname, "..", "samples");
+import { getProject } from "../get-project.js";
+import { SAMPLES_DIR } from "../utils.js";
 
 export default class Init extends Command {
   static override args = {};
@@ -29,7 +25,11 @@ export default class Init extends Command {
       fs.statSync(pocketbasePath)
     )();
     if (pocketbaseExists.isOk())
-      this.error("PocketBase project already initialized in this directory.");
+      this.error(
+        chalk.yellow(
+          "PocketBase project already initialized in this directory."
+        )
+      );
 
     const currentProjectName = path.basename(currentPath);
 
@@ -50,15 +50,19 @@ export default class Init extends Command {
 
     if (initResult.isErr())
       this.error(
-        `Failed to initialize PocketBase project: ${initResult.error}`
+        chalk.red(
+          `Failed to initialize PocketBase project: ${initResult.error}`
+        )
       );
 
-    const newConfig = getConfig();
-    if (newConfig.isErr())
-      this.error(`Failed to parse new config: ${newConfig.error}`);
+    const newProject = getProject();
+    if (newProject.isErr())
+      this.error(chalk.red(`Failed to parse new config: ${newProject.error}`));
 
     this.log(
-      `Initialized PocketBase project '${newConfig.value.config.meta?.appName}' at ${pocketbasePath}`
+      `Initialized PocketBase project '${chalk.cyanBright(
+        newProject.value.config.meta?.appName
+      )}' at ${chalk.italic(pocketbasePath)}`
     );
   }
 }
