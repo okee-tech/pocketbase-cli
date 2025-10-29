@@ -1,9 +1,11 @@
 import { Command } from "@oclif/core";
 
+import TOML from "@iarna/toml";
 import chalk from "chalk";
 import { Result } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
+import { SettingsSchema } from "../config.js";
 import { getProject } from "../get-project.js";
 import { SAMPLES_DIR } from "../utils.js";
 
@@ -37,10 +39,11 @@ export default class Init extends Command {
       fs.mkdirSync(pocketbasePath, { recursive: true });
       fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
 
-      const config = fs.readFileSync(configPath, "utf-8");
-      const updatedConfig = config.replaceAll("#APP_NAME#", currentProjectName);
+      const defaultConfig = SettingsSchema.parse({});
+      defaultConfig.meta ??= {};
+      defaultConfig.meta.appName = currentProjectName;
 
-      fs.writeFileSync(configPath, updatedConfig, "utf-8");
+      fs.writeFileSync(configPath, TOML.stringify(defaultConfig), "utf-8");
       fs.writeFileSync(
         path.join(pocketbasePath, ".gitignore"),
         ".pb\n",

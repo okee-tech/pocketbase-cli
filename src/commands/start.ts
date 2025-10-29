@@ -2,7 +2,7 @@ import { Command } from "@oclif/core";
 import chalk from "chalk";
 import * as compose from "docker-compose";
 import Docker from "dockerode";
-import { err, Result, ResultAsync } from "neverthrow";
+import { Result, ResultAsync } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
 import { areAllRunning, checkDocker } from "../docker.js";

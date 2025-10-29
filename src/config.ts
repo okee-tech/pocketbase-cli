@@ -132,8 +132,8 @@ const SuperuserConfigSchema = z.object({
   password: z.string(),
 });
 
-export const SettingsSchema = z.object({
-  bindPort: z.number().int().default(55432),
+const SettingsSchema = z.object({
+  bindPort: z.int().default(55432),
   superusers: SuperuserConfigSchema.array().default([
     {
       email: "test@inbucket.local",
@@ -151,4 +151,4 @@ export const SettingsSchema = z.object({
   trustedProxy: TrustedProxyConfigSchema.optional(),
 });
 
-export { parseConfig, SettingsSchemaConfig };
+export { parseConfig, SettingsSchema, SettingsSchemaConfig };
