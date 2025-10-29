@@ -1,10 +1,13 @@
 {
   "name": "@okee-tech/pocketbase-cli",
-  "description": "A new CLI generated with oclif",
+  "description": "PocketBase CLI tool to manage PocketBase instances and projects",
   "version": "0.0.1",
-  "author": "Demid Kaidalov",
+  "author": "OKEE Tech",
   "bin": {
     "pocketbase": "./bin/run.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": "https://github.com/okee-tech/pocketbase-cli/issues",
   "dependencies": {
@@ -54,7 +57,9 @@
   ],
   "homepage": "https://github.com/okee-tech/pocketbase-cli",
   "keywords": [
-    "oclif"
+    "oclif",
+    "pocketbase",
+    "cli"
   ],
   "license": "MIT",
   "main": "dist/index.js",
@@ -73,7 +78,10 @@
       }
     }
   },
-  "repository": "okee-tech/pocketbase-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okee-tech/pocketbase-cli.git"
+  },
   "scripts": {
     "build": "npm-run-all clean build:raw copy:samples",
     "build:raw": " tsc -b",
