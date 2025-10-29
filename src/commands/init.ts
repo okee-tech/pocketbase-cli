@@ -46,7 +46,7 @@ export default class Init extends Command {
       fs.writeFileSync(configPath, TOML.stringify(defaultConfig), "utf-8");
       fs.writeFileSync(
         path.join(pocketbasePath, ".gitignore"),
-        ".pb\n",
+        ".pb\npb_migrations/10_users.js\n",
         "utf-8"
       );
     })();

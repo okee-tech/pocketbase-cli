@@ -47,7 +47,12 @@ export async function initPb(
     );
 
     fs.writeFileSync(
-      path.join(pbBase, "pb_migrations", "10_users.js"),
+      path.join(
+        project.projectRoot,
+        "pocketbase",
+        "pb_migrations",
+        "10_users.js"
+      ),
       newMigration,
       "utf-8"
     );
