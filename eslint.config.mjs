@@ -1,9 +1,12 @@
-import {includeIgnoreFile} from '@eslint/compat'
-import oclif from 'eslint-config-oclif'
-import prettier from 'eslint-config-prettier'
-import path from 'node:path'
-import {fileURLToPath} from 'node:url'
+import pluginJs from "@eslint/js";
+import neverthrowPlugin from "@okee-tech/eslint-plugin-neverthrow";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-const gitignorePath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.gitignore')
-
-export default [includeIgnoreFile(gitignorePath), ...oclif, prettier]
+export default [
+  { files: ["**/*.{js,mjs,cjs,ts}"] },
+  { languageOptions: { globals: globals.node } },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  neverthrowPlugin.configs.node,
+];
