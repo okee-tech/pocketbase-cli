@@ -51,7 +51,7 @@ export async function initPb(
         project.projectRoot,
         "pocketbase",
         "pb_migrations",
-        "settings.js"
+        "0_settings.js"
       ),
       newMigration,
       "utf-8"

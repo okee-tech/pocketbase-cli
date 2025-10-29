@@ -15,7 +15,7 @@ const SAMPLE_DOCKER_COMPOSE = fs.readFileSync(
 const PARSED_DOCKER_COMPOSE = YAML.parse(SAMPLE_DOCKER_COMPOSE);
 
 const SAMPLE_SETTINGS_MIGRATION = fs.readFileSync(
-  path.join(SAMPLES_DIR, "pb_migrations", "settings.js"),
+  path.join(SAMPLES_DIR, "pb_migrations", "0_settings.js"),
   "utf-8"
 );
 const DOCKER_IMAGES = [...Object.keys(PARSED_DOCKER_COMPOSE.services)];
