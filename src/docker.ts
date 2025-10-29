@@ -21,7 +21,7 @@ async function areAllRunning(
     docker.listContainers({
       all: true,
       filters: {
-        label: [`com.docker.compose.project=${project.config.meta?.appName}`],
+        label: [`com.docker.compose.project=${project.config.appName}`],
       },
     })
   )();
@@ -48,7 +48,7 @@ async function getStatusString(
     return err(areAllRunningResult.error as Error);
 
   status += `\nRunning instance ${chalk.cyanBright(
-    project.config.meta?.appName
+    project.config.appName
   )}, location: ${chalk.italic(project.projectRoot)}\n`;
   status += chalk.green("All services are running.\n");
   status += `Admin UI:\t${chalk.cyanBright(
@@ -61,6 +61,12 @@ async function getStatusString(
   project.config.superusers?.forEach((su) => {
     status += ` - ${chalk.cyanBright(su.email)}\t:\t${chalk.cyan(
       su.password
+    )}\n`;
+  });
+  status += "Users:\n";
+  project.config.users?.forEach((user) => {
+    status += ` - ${chalk.cyanBright(user.email)}\t:\t${chalk.cyan(
+      user.password
     )}\n`;
   });
 

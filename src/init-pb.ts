@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
 import { Project } from "./get-project.js";
-import { PARSED_DOCKER_COMPOSE, SAMPLE_SETTINGS_MIGRATION } from "./utils.js";
+import { PARSED_DOCKER_COMPOSE, USERS_SAMPLE_MIGRATION } from "./utils.js";
 
 type HasStateChanged = boolean;
 
@@ -21,7 +21,7 @@ export async function initPb(
     parsedDocker.services.pocketbase.ports[0] = `${project.config.bindPort}:8080`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Object.values(parsedDocker.services).forEach((service: any) => {
-      service.container_name = `${project.config.meta?.appName}_${service.container_name}`;
+      service.container_name = `${service.container_name}_${project.config.appName}`;
     });
 
     const newDockerCompose = YAML.stringify(parsedDocker);
@@ -37,29 +37,25 @@ export async function initPb(
   if (dockerComposeUpdate.isErr())
     return err(dockerComposeUpdate.error as Error);
 
-  const migrationsUpdate = Result.fromThrowable(() => {
-    const newMigration = SAMPLE_SETTINGS_MIGRATION.replaceAll(
-      "// #CONFIG_SETTINGS# //",
-      JSON.stringify(project.config, null, 2) + ";\n"
+  const usersMigrationResult = Result.fromThrowable(() => {
+    const newMigration = USERS_SAMPLE_MIGRATION.replaceAll(
+      `[{ email: "super", password: "user" }]`,
+      JSON.stringify(project.config.superusers)
     ).replaceAll(
-      "// #CONFIG_SUPERUSERS# //",
-      JSON.stringify(project.config.superusers || [], null, 2) + ";\n"
+      `[{ email: "super", password: "user" }]`,
+      JSON.stringify(project.config.users)
     );
 
     fs.writeFileSync(
-      path.join(
-        project.projectRoot,
-        "pocketbase",
-        "pb_migrations",
-        "0_settings.js"
-      ),
+      path.join(pbBase, "pb_migrations", "10_users.js"),
       newMigration,
       "utf-8"
     );
 
     pbStateValue += newMigration;
   })();
-  if (migrationsUpdate.isErr()) return err(migrationsUpdate.error as Error);
+  if (usersMigrationResult.isErr())
+    return err(usersMigrationResult.error as Error);
 
   const initialMigrationUpdate = Result.fromThrowable(() => {})();
   if (initialMigrationUpdate.isErr())

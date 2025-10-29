@@ -14,16 +14,23 @@ const SAMPLE_DOCKER_COMPOSE = fs.readFileSync(
 );
 const PARSED_DOCKER_COMPOSE = YAML.parse(SAMPLE_DOCKER_COMPOSE);
 
-const SAMPLE_SETTINGS_MIGRATION = fs.readFileSync(
-  path.join(SAMPLES_DIR, "pb_migrations", "0_settings.js"),
+const USERS_SAMPLE_MIGRATION_PATH = path.join(
+  SAMPLES_DIR,
+  "pb_migrations",
+  "10_users.js"
+);
+const USERS_SAMPLE_MIGRATION = fs.readFileSync(
+  USERS_SAMPLE_MIGRATION_PATH,
   "utf-8"
 );
+
 const DOCKER_IMAGES = [...Object.keys(PARSED_DOCKER_COMPOSE.services)];
 
 export {
   DOCKER_IMAGES,
   PARSED_DOCKER_COMPOSE,
   SAMPLE_DOCKER_COMPOSE,
-  SAMPLE_SETTINGS_MIGRATION,
   SAMPLES_DIR,
+  USERS_SAMPLE_MIGRATION,
+  USERS_SAMPLE_MIGRATION_PATH,
 };

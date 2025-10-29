@@ -53,102 +53,35 @@ function parseConfig(configPath: string): Result<SettingsSchemaConfig, Error> {
   return ok(schemaResult.value);
 }
 
-const EmailTemplateSchema = z.object({
-  body: z.string().optional(),
-  subject: z.string().optional(),
-  actionUrl: z.string().optional(),
-});
-
-const MetaConfigSchema = z.object({
-  appName: z.string().optional(),
-  appUrl: z.string().optional(),
-  hideControls: z.boolean().optional(),
-  senderName: z.string().optional(),
-  senderAddress: z.string().optional(),
-  verificationTemplate: EmailTemplateSchema.optional(),
-  resetPasswordTemplate: EmailTemplateSchema.optional(),
-  confirmEmailChangeTemplate: EmailTemplateSchema.optional(),
-});
-
-const S3ConfigSchema = z.object({
-  enabled: z.boolean().optional(),
-  bucket: z.string().optional(),
-  region: z.string().optional(),
-  endpoint: z.string().optional(),
-  accessKey: z.string().optional(),
-  secret: z.string().optional(),
-  forcePathStyle: z.boolean().optional(),
-});
-
-const SMTPConfigSchema = z.object({
-  enabled: z.boolean().optional(),
-  host: z.string().optional(),
-  port: z.number().int().optional(),
-  username: z.string().optional(),
-  password: z.string().optional(),
-  authMethod: z.string().optional(), // "PLAIN" or "LOGIN"
-  tls: z.boolean().optional(),
-  localName: z.string().optional(),
-});
-
-const BackupsConfigSchema = z.object({
-  cron: z.string().optional(),
-  cronMaxKeep: z.number().int().optional(),
-  s3: S3ConfigSchema.optional(),
-});
-
-const BatchConfigSchema = z.object({
-  enabled: z.boolean().optional(),
-  maxRequests: z.number().int().optional(),
-  timeout: z.number().int().optional(),
-  maxBodySize: z.number().int().optional(),
-});
-
-const LogsConfigSchema = z.object({
-  maxDays: z.number().int().optional(),
-  minLevel: z.number().int().optional(),
-  logIp: z.boolean().optional(),
-});
-
-const RateLimitRuleSchema = z.object({
-  label: z.string().optional(),
-  audience: z.string().optional(), // "", "guest", or "auth"
-  duration: z.number().int().optional(),
-  maxRequests: z.number().int().optional(),
-});
-
-const RateLimitsConfigSchema = z.object({
-  enabled: z.boolean().optional(),
-  rules: z.array(RateLimitRuleSchema).optional(),
-});
-
-const TrustedProxyConfigSchema = z.object({
-  headers: z.array(z.string()).optional(),
-  useLeftmostIP: z.boolean().optional(),
-});
-
 const SuperuserConfigSchema = z.object({
   email: z.email(),
   password: z.string(),
 });
 
+const UserConfigSchema = z.object({
+  email: z.email(),
+  password: z.string(),
+  name: z.string().optional(),
+});
+
 const SettingsSchema = z.object({
+  appName: z.string().default("pocketbase-app"),
+
   bindPort: z.int().default(55432),
+
   superusers: SuperuserConfigSchema.array().default([
     {
-      email: "test@inbucket.local",
+      email: "admin@inbucket.local",
       password: "password",
     },
   ]),
-
-  backups: BackupsConfigSchema.optional(),
-  batch: BatchConfigSchema.optional(),
-  logs: LogsConfigSchema.optional(),
-  meta: MetaConfigSchema.optional(),
-  rateLimits: RateLimitsConfigSchema.optional(),
-  s3: S3ConfigSchema.optional(),
-  smtp: SMTPConfigSchema.optional(),
-  trustedProxy: TrustedProxyConfigSchema.optional(),
+  users: UserConfigSchema.array().default([
+    {
+      email: "test@inbucket.local",
+      password: "password",
+      name: "Test User",
+    },
+  ]),
 });
 
 export { parseConfig, SettingsSchema, SettingsSchemaConfig };

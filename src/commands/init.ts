@@ -39,9 +39,9 @@ export default class Init extends Command {
       fs.mkdirSync(pocketbasePath, { recursive: true });
       fs.cpSync(SAMPLES_DIR, pocketbasePath, { recursive: true });
 
-      const defaultConfig = SettingsSchema.parse({});
-      defaultConfig.meta ??= {};
-      defaultConfig.meta.appName = currentProjectName;
+      const defaultConfig = SettingsSchema.parse({
+        appName: currentProjectName,
+      });
 
       fs.writeFileSync(configPath, TOML.stringify(defaultConfig), "utf-8");
       fs.writeFileSync(
@@ -64,7 +64,7 @@ export default class Init extends Command {
 
     this.log(
       `Initialized PocketBase project '${chalk.cyanBright(
-        newProject.value.config.meta?.appName
+        newProject.value.config.appName
       )}' at ${chalk.italic(pocketbasePath)}`
     );
   }

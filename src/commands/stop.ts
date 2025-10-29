@@ -19,11 +19,7 @@ export default class Stop extends Command {
       this.error(chalk.red(`Project not found: ${projectResult.error}`));
     const project = projectResult.value;
     const pbConfig = project.config;
-    const projectName = pbConfig.meta?.appName;
-    if (projectName == null)
-      this.error(
-        chalk.red("Cannot determine project name from config.meta.appName")
-      );
+    const projectName = pbConfig.appName;
 
     this.log(
       `Located PocketBase: ${chalk.cyanBright(projectName)}, at ${chalk.italic(
