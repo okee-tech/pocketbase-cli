@@ -42,7 +42,7 @@ export async function initPb(
       `[{ email: "super", password: "user" }]`,
       JSON.stringify(project.config.superusers)
     ).replaceAll(
-      `[{ email: "super", password: "user" }]`,
+      `[{ email: "normal", password: "user" }]`,
       JSON.stringify(project.config.users)
     );
 
