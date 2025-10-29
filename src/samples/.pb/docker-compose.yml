@@ -10,4 +10,4 @@ services:
       - "55432:8080"
 
     volumes:
-      - ./pb_data:/pb_data
+      - ./pb_data:/pb/pb_data
