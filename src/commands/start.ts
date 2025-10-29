@@ -5,7 +5,7 @@ import Docker from "dockerode";
 import { Result, ResultAsync } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
-import { areAllRunning, checkDocker } from "../docker.js";
+import { areAllRunning, checkDocker, getStatusString } from "../docker.js";
 import { getProject } from "../get-project.js";
 import { initPb } from "../init-pb.js";
 
@@ -109,5 +109,13 @@ export default class Start extends Command {
       );
 
     this.log(chalk.green("PocketBase Docker containers started successfully."));
+
+    const statusString = await getStatusString(project);
+    if (statusString.isErr())
+      this.error(
+        chalk.red(`Failed to retrieve PocketBase status: ${statusString.error}`)
+      );
+
+    this.log(statusString.value);
   }
 }

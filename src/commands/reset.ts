@@ -4,7 +4,6 @@ import { Result } from "neverthrow";
 import fs from "node:fs";
 import path from "node:path";
 import { getProject } from "../get-project.js";
-import Start from "./start.js";
 
 export default class Reset extends Command {
   static override args = {};

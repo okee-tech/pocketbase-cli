@@ -1,27 +1,28 @@
-import { Args, Command, Flags } from "@oclif/core";
+import { Command } from "@oclif/core";
+import chalk from "chalk";
+import { getStatusString } from "../docker.js";
+import { getProject } from "../get-project.js";
 
 export default class Status extends Command {
-  static override args = {
-    file: Args.string({ description: "file to read" }),
-  };
-  static override description = "describe the command here";
+  static override args = {};
+  static override description = "Display status information";
   static override examples = ["<%= config.bin %> <%= command.id %>"];
-  static override flags = {
-    // flag with no value (-f, --force)
-    force: Flags.boolean({ char: "f" }),
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({ char: "n", description: "name to print" }),
-  };
+  static override flags = {};
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(Status);
+    await this.parse(Status);
 
-    const name = flags.name ?? "world";
-    this.log(
-      `hello ${name} from C:\\Users\\demid\\Desktop\\okee-tech\\pocketbase-cli\\src\\commands\\status.ts`
-    );
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`);
-    }
+    const projectResult = getProject();
+    if (projectResult.isErr())
+      this.error(chalk.red(`Project not found: ${projectResult.error}`));
+    const project = projectResult.value;
+
+    const statusString = await getStatusString(project);
+    if (statusString.isErr())
+      this.error(
+        chalk.red(`Failed to retrieve PocketBase status: ${statusString.error}`)
+      );
+
+    this.log(statusString.value);
   }
 }
