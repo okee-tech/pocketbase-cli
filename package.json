@@ -78,7 +78,7 @@
     "build": "npm-run-all clean build:raw copy:samples",
     "build:raw": " tsc -b",
     "clean": "shx rm -rf dist",
-    "copy:samples": "copyfiles -u 1 src/commands/samples/**/* dist/",
+    "copy:samples": "copyfiles -a -u 1 src/samples/**/* dist/",
     "lint": "eslint",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "npm run lint",
